@@ -1,5 +1,5 @@
 # ======================================
-# main.py —  Modelo de classificação
+# Conexão com Flask
 # ======================================
 
 from flask import Flask
