@@ -1,5 +1,5 @@
 # ======================================
-# AguaQualidade.py — Blueprint Flask
+# Importações de bibliotecas
 # ======================================
 
 from flask import Blueprint, request, jsonify
@@ -23,10 +23,15 @@ agua_bp = Blueprint("agua_bp", __name__)
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
-# Variáveis de ambiente
+# Variáveis do .env
 load_dotenv()
 
-# ================= FUNÇÕES =================
+
+
+
+# ======================================
+# Funções
+# ======================================
 def conectar_mongodb():
     mongo_uri = os.getenv("MONGO_URI")
     db_name = os.getenv("DB_NAME")
@@ -104,7 +109,10 @@ def definir_modelos(k_list):
         }
     }
 
-# ================= TREINO =================
+
+# ======================================
+# Treinos
+# ======================================
 def treinar_melhor_modelo():
     collection = conectar_mongodb()
     df = carregar_dados(collection)
@@ -139,11 +147,13 @@ def treinar_melhor_modelo():
     modelo_final.fit(X_train, y_train)
     return modelo_final, le
 
-# Treina o modelo ao iniciar o blueprint
 modelo_final, le = treinar_melhor_modelo()
-log.info("Modelo treinado — pronto para previsões!")
+log.info("Modelo treinado")
 
-# ================= ENDPOINT =================
+
+# ======================================
+# Endpoint
+# ======================================
 @agua_bp.route("/prever", methods=["POST"])
 def prever_qualidade():
     try:
